@@ -1,0 +1,10 @@
+Featrues (PHASE-I):
+	1.Password 
+		a.Title
+		b.Username
+		c.Password (Encrypted)
+		d.Website (Direct to the entered website)
+		e.Category
+
+	2.Category
+		a.Title

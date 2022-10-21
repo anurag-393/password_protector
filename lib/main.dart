@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:password_protector/models/password.dart';
+import 'package:password_protector/widgets/newPassword.dart';
 import 'package:password_protector/widgets/passwordList.dart';
 
 void main() {
@@ -50,15 +51,14 @@ class _MyHomePageState extends State<MyHomePage> {
     ),
   ];
 
-  void addPassword(String id, String title, String username, String pass,
-      String website, DateTime date) {
+  void addPassword(String title, String username, String pass, String website) {
     final password = new Password(
-      id: id,
+      id: "5",
       title: title,
       username: username,
       password: pass,
       website: website,
-      date: date,
+      date: DateTime.now(),
     );
     setState(() {
       passwords.add(password);
@@ -75,6 +75,14 @@ class _MyHomePageState extends State<MyHomePage> {
         children: [
           PasswordList(passwords),
         ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => NewPassword(addPassword)));
+        },
+        child: Icon(Icons.add),
       ),
     );
   }

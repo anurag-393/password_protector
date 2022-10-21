@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'package:password_protector/models/password.dart';
+import 'package:password_protector/widgets/displayPassword.dart';
 
 class PasswordList extends StatelessWidget {
   List<Password> passwords;
@@ -14,7 +15,7 @@ class PasswordList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 500,
+      height: 660,
       child: ListView.builder(
         itemBuilder: (context, index) {
           return Card(
@@ -23,6 +24,14 @@ class PasswordList extends StatelessWidget {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             child: ListTile(
+              onTap: () {
+                Password password = this.passwords[index];
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          DisplayPassword(this.passwords[index].id, password)),
+                );
+              },
               leading: Container(
                 padding: EdgeInsets.symmetric(vertical: 10),
                 child: Column(

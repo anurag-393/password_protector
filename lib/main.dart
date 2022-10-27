@@ -8,10 +8,14 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        primaryColor: Color(0xfff6c453),
+        accentColor: Colors.black87,
+        scaffoldBackgroundColor: Colors.grey[300],
+      ),
       title: 'Flutter Demo',
       home: MyHomePage(),
     );
@@ -24,32 +28,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Password> passwords = [
-    Password(
-      id: "1",
-      title: "Google",
-      username: 'anurag01@gmail',
-      password: "anuragd393",
-      website: "google",
-      date: DateTime.now(),
-    ),
-    Password(
-      id: "2",
-      title: "Google",
-      username: 'anurag02@gmail',
-      password: "anuragd393",
-      website: "google",
-      date: DateTime.now(),
-    ),
-    Password(
-      id: "3",
-      title: "Google",
-      username: 'anurag03@gmail',
-      password: "anuragd393",
-      website: "google",
-      date: DateTime.now(),
-    ),
-  ];
+  final List<Password> passwords = [];
 
   void addPassword(String title, String username, String pass, String website) {
     final password = new Password(
@@ -71,10 +50,12 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text("Password Protecctor"),
       ),
-      body: Column(
-        children: [
-          PasswordList(passwords),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            PasswordList(passwords),
+          ],
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(

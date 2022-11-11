@@ -1,35 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:password_protector/models/password.dart';
 
 class PinAuthentication extends StatefulWidget {
+  final Password password;
+
+  PinAuthentication(this.password);
+
   @override
   _PinAuthenticationState createState() => _PinAuthenticationState();
 }
 
 class _PinAuthenticationState extends State<PinAuthentication> {
   final formKey = GlobalKey<FormState>();
+
+  final AUTHPIN = '5156';
   final digit1Controller = TextEditingController();
-
   final digit2Controller = TextEditingController();
-
   final digit3Controller = TextEditingController();
-
   final digit4Controller = TextEditingController();
 
-  void getPin(BuildContext context) {
-    var pin;
+  void userAuthentication(BuildContext context) {
+    var enteredPin;
     var digit1 = digit1Controller.text;
     var digit2 = digit2Controller.text;
     var digit3 = digit3Controller.text;
     var digit4 = digit4Controller.text;
 
-    pin = "" + digit1 + digit2 + digit3 + digit4;
+    enteredPin = "" + digit1 + digit2 + digit3 + digit4;
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text("Pin = " + pin),
-      ),
-    );
+    if (AUTHPIN == enteredPin) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Pin = " + AUTHPIN),
+        ),
+      );
+      return;
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Incorect Pin"),
+        ),
+      );
+      return;
+    }
+
+    // ScaffoldMessenger.of(context).showSnackBar(
+    //   SnackBar(
+    //     content: Text("Pin = " + pin),
+    //   ),
+    // );
   }
 
   @override
@@ -237,7 +257,8 @@ class _PinAuthenticationState extends State<PinAuthentication> {
             ElevatedButton(
               onPressed: () {
                 if (formKey.currentState!.validate()) {
-                  getPin(context);
+                  userAuthentication(context);
+                  Navigator.pop(context);
                 }
               },
               child: Text("Confirm"),

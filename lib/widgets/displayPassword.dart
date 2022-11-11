@@ -1,14 +1,16 @@
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:password_protector/models/password.dart';
 import 'package:password_protector/widgets/pinAuthentication.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class DisplayPassword extends StatefulWidget {
   final String id;
   final Password password;
 
   DisplayPassword(this.id, this.password);
+
+  // DisplayPassword(this.id, this.password, this.isAuthenticaed);
 
   @override
   _DisplayPasswordState createState() => _DisplayPasswordState();
@@ -30,7 +32,7 @@ class _DisplayPasswordState extends State<DisplayPassword> {
     showModalBottomSheet(
         context: context,
         builder: (_) {
-          return PinAuthentication();
+          return PinAuthentication(widget.password);
         });
   }
 
@@ -165,11 +167,11 @@ class _DisplayPasswordState extends State<DisplayPassword> {
                                 //                 .authenticateWithBiometrics();
 
                                 //         if (isAuthenticated) {
-                                //           Navigator.of(context).push(
-                                //             MaterialPageRoute(
-                                //               builder: (context) => Test(),
-                                //             ),
-                                //           );
+                                // Navigator.of(context).push(
+                                //   MaterialPageRoute(
+                                //     builder: (context) => Test(),
+                                //   ),
+                                // );
                                 //         } else {
                                 //           ScaffoldMessenger.of(context)
                                 //               .showSnackBar(SnackBar(

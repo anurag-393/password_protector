@@ -1,24 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+
 import 'package:password_protector/models/password.dart';
+import 'package:password_protector/providers/authenticatinoProvider.dart';
 
-class PinAuthentication extends StatefulWidget {
-  final Password password;
+final formKey = GlobalKey<FormState>();
 
-  PinAuthentication(this.password);
+final digit2Controller = TextEditingController();
+final digit3Controller = TextEditingController();
+final digit4Controller = TextEditingController();
+final digit1Controller = TextEditingController();
 
-  @override
-  _PinAuthenticationState createState() => _PinAuthenticationState();
-}
+class PinAuthentication extends StatelessWidget {
+  Function authSuccess;
+  Function authFail;
 
-class _PinAuthenticationState extends State<PinAuthentication> {
-  final formKey = GlobalKey<FormState>();
+  PinAuthentication({
+    required this.authSuccess,
+    required this.authFail,
+  });
 
   final AUTHPIN = '5156';
-  final digit1Controller = TextEditingController();
-  final digit2Controller = TextEditingController();
-  final digit3Controller = TextEditingController();
-  final digit4Controller = TextEditingController();
 
   void userAuthentication(BuildContext context) {
     var enteredPin;
@@ -30,13 +33,24 @@ class _PinAuthenticationState extends State<PinAuthentication> {
     enteredPin = "" + digit1 + digit2 + digit3 + digit4;
 
     if (AUTHPIN == enteredPin) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Pin = " + AUTHPIN),
-        ),
-      );
+      // context.read<CheckPin>().authenticated();
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(
+      //     content: Text("Pin = " + AUTHPIN),
+      //   ),
+      // );
+      authSuccess();
+      digit1Controller.clear();
+      digit2Controller.clear();
+      digit3Controller.clear();
+      digit4Controller.clear();
       return;
     } else {
+      authFail();
+      digit1Controller.clear();
+      digit2Controller.clear();
+      digit3Controller.clear();
+      digit4Controller.clear();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text("Incorect Pin"),
@@ -72,6 +86,9 @@ class _PinAuthenticationState extends State<PinAuthentication> {
                   height: 68,
                   width: 64,
                   child: TextFormField(
+                    obscureText: true,
+                    obscuringCharacter: '*',
+                    style: TextStyle(fontSize: 30),
                     validator: (value) {
                       if (value!.isEmpty) {
                         return '';
@@ -118,6 +135,9 @@ class _PinAuthenticationState extends State<PinAuthentication> {
                   height: 68,
                   width: 64,
                   child: TextFormField(
+                    obscureText: true,
+                    obscuringCharacter: '*',
+                    style: TextStyle(fontSize: 30),
                     validator: (value) {
                       if (value!.isEmpty) {
                         return '';
@@ -164,6 +184,9 @@ class _PinAuthenticationState extends State<PinAuthentication> {
                   height: 68,
                   width: 64,
                   child: TextFormField(
+                    obscureText: true,
+                    obscuringCharacter: '*',
+                    style: TextStyle(fontSize: 30),
                     validator: (value) {
                       if (value!.isEmpty) {
                         return '';
@@ -210,6 +233,9 @@ class _PinAuthenticationState extends State<PinAuthentication> {
                   height: 68,
                   width: 64,
                   child: TextFormField(
+                    obscureText: true,
+                    obscuringCharacter: '*',
+                    style: TextStyle(fontSize: 30),
                     validator: (value) {
                       if (value!.isEmpty) {
                         return '';

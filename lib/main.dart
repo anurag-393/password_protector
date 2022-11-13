@@ -1,16 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:password_protector/models/password.dart';
+import 'package:password_protector/providers/authenticatinoProvider.dart';
 import 'package:password_protector/widgets/newPassword.dart';
 import 'package:password_protector/widgets/passwordList.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(
+    // MultiProvider(
+    //   providers: [
+    //     ChangeNotifierProvider(create: (_) => CheckPin()),
+    //   ],
+    //   child: MyApp(),
+    // ),
+    MyApp(),
+  );
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      initialRoute: '/',
+      routes: {
+        '/a': (context) => MyHomePage(),
+      },
       theme: ThemeData(
         primaryColor: Color(0xfff6c453),
         accentColor: Colors.black87,

@@ -1,8 +1,10 @@
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
+import 'package:password_protector/providers/authenticatinoProvider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:password_protector/models/password.dart';
 import 'package:password_protector/widgets/pinAuthentication.dart';
+import 'package:provider/provider.dart';
 
 class DisplayPassword extends StatefulWidget {
   final String id;
@@ -17,6 +19,18 @@ class DisplayPassword extends StatefulWidget {
 }
 
 class _DisplayPasswordState extends State<DisplayPassword> {
+  bool isAuthenticated = false;
+
+  // void authSuccess() {
+  //   setState(() {
+  //     isAuthenticated = true;
+  //   });
+  // }
+
+  // void authFail() {
+  //   isAuthenticated = true;
+  // }
+
   launchURLBrowser(BuildContext context) async {
     String url = this.widget.password.website;
     if (await canLaunch(url)) {
@@ -32,8 +46,24 @@ class _DisplayPasswordState extends State<DisplayPassword> {
     showModalBottomSheet(
         context: context,
         builder: (_) {
-          return PinAuthentication(widget.password);
+          return PinAuthentication(authSuccess: () {
+            setState(() {
+              isAuthenticated = true;
+            });
+          }, authFail: () {
+            setState(() {
+              isAuthenticated = false;
+            });
+          });
         });
+  }
+
+  String charToStar(int length) {
+    var stars = '';
+    for (var i = 0; i < length; i++) {
+      stars += '* ';
+    }
+    return stars;
   }
 
   var passwordVisible = false;
@@ -145,19 +175,30 @@ class _DisplayPasswordState extends State<DisplayPassword> {
                             child: Row(
                               children: [
                                 Expanded(
-                                  flex: 3,
-                                  child: Text(
-                                    widget.password.password,
-                                    style: TextStyle(fontSize: 15),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: ElevatedButton(
-                                      child: Icon(Icons.view_agenda),
-                                      onPressed: () {
-                                        authentication(context);
-                                      }),
-                                ),
+                                    flex: 3,
+                                    child: this.isAuthenticated
+                                        ? Text(
+                                            widget.password.password,
+                                            style: TextStyle(fontSize: 15),
+                                          )
+                                        : Text(
+                                            charToStar(widget
+                                                .password.password.length),
+                                            style: TextStyle(fontSize: 15),
+                                          )),
+                                !isAuthenticated
+                                    ? Expanded(
+                                        child: ElevatedButton(
+                                            child: Icon(Icons.view_agenda),
+                                            onPressed: () {
+                                              authentication(context);
+                                            }),
+                                      )
+                                    : Expanded(
+                                        child: ElevatedButton(
+                                            child: Icon(Icons.view_agenda),
+                                            onPressed: () {}),
+                                      ),
                                 // Expanded(
                                 //   child: ElevatedButton(
                                 //       child: Icon(Icons.view_agenda),
